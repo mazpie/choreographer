@@ -1,0 +1,31 @@
+# @package _global_
+
+# Defaults
+rssm: {ensemble: 1, hidden: 200, deter: 200, stoch: 32, discrete: 32,  norm: none, std_act: sigmoid2, min_std: 0.1} 
+reward_head: {layers: 4, units: 400, norm: none, dist: mse} 
+kl: {free: 1.0, forward: False, balance: 0.8, free_avg: True}
+loss_scales: {kl: 1.0, reward: 1.0, discount: 1.0, proprio: 1.0}
+model_opt: {opt: adam, lr: 3e-4, eps: 1e-5, clip: 100, wd: 1e-6}
+replay: {capacity: 2e6, ongoing: False, minlen: 50, maxlen: 50, prioritize_ends: False}
+
+actor: {layers: 4, units: 400, norm: none, dist: trunc_normal, min_std: 0.1 }  
+critic: {layers: 4, units: 400, norm: none, dist: mse}  
+actor_opt: {opt: adam, lr: 8e-5, eps: 1e-5, clip: 100, wd: 1e-6}
+critic_opt: {opt: adam, lr: 8e-5, eps: 1e-5, clip: 100, wd: 1e-6}
+discount: 0.99
+discount_lambda: 0.95
+actor_grad: dynamics
+slow_target: True
+slow_target_update: 100
+slow_target_fraction: 1
+slow_baseline: True
+
+clip_rewards: identity
+
+batch_size: 50 
+batch_length: 50 
+imag_horizon: 15
+eval_state_mean: False
+
+precision: 32 # defaulting to 32, but can use 16 for mixed precision
+train_every_actions: 10

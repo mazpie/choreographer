@@ -1,0 +1,49 @@
+defaults:
+  - configs/default
+  - agent: choreo
+  - configs: ${configs}
+  - override hydra/launcher: submitit_local
+
+# task settings
+task: none
+domain: walker # primal task will be infered in runtime
+# train settings
+num_train_frames: 2000010
+num_seed_frames: 4000
+# eval
+eval_every_frames: 1000000000 # not necessary during pretrain
+num_eval_episodes: 10
+# snapshot
+snapshots: [100000, 500000, 1000000, 2000000] 
+snapshot_dir: ../../../pretrained_models/${obs_type}/${domain}/${agent.name}/${seed}
+# replay buffer
+replay_buffer_size: 1000000
+# misc
+seed: 1
+device: cuda
+use_tb: true
+use_wandb: true
+
+# experiment
+experiment: pt
+project_name: choreo
+
+# log settings
+log_every_frames: 1000
+recon_every_frames: 100000000 # edit for debug
+
+
+hydra:
+  run:
+    dir: ./exp_local/${now:%Y.%m.%d}/${now:%H%M%S}_${agent.name}
+  sweep:
+    dir: ./exp_sweep/${now:%Y.%m.%d}/${now:%H%M}_${agent.name}_${experiment}
+    subdir: ${hydra.job.num}
+  launcher:
+    timeout_min: 4300
+    cpus_per_task: 10
+    gpus_per_node: 1
+    tasks_per_node: 1
+    mem_gb: 160
+    nodes: 1
+    submitit_folder: ./exp_sweep/${now:%Y.%m.%d}/${now:%H%M}_${agent.name}_${experiment}/.slurm

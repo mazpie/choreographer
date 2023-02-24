@@ -1,0 +1,30 @@
+# @package agent
+_target_: agent.choreo.ChoreoAgent
+name: choreo
+cfg: ???
+obs_space: ???
+act_spec: ???
+grad_heads: [decoder]
+
+# Exploration
+reward_norm: {momentum: 0.95, scale: 1.0, eps: 1e-8}
+actor_ent: 0
+
+# Skills
+skill_dim: 64
+skill_reward_norm: {momentum: 1.00, scale: 1.0, eps: 1e-8} 
+skill_actor_ent: 0
+code_dim: 16
+code_resampling: True
+resample_every: 200
+
+# Adaptation
+num_init_frames: 4000 
+update_skill_every_step: 125 
+freeze_skills: False
+
+# PBE
+knn_rms: false
+knn_k: 30
+knn_avg: true
+knn_clip: 0.0001

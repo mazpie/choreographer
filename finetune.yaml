@@ -1,0 +1,63 @@
+defaults:
+  - configs/default
+  - agent: choreo
+  - configs: ${configs}
+  - override hydra/launcher: submitit_local
+
+# metaworld
+eval_goals: false
+task_id: null
+# task settings
+task: walker_stand
+# train settings
+num_train_frames: 100010
+num_seed_frames: 4000
+# eval
+eval_every_frames: 10000
+num_eval_episodes: 10
+# pretrained
+snapshot_ts: 100000
+snapshot_base_dir: ./pretrained_models
+custom_snap_dir: none
+# replay buffer
+replay_buffer_size: 1000000
+# misc
+seed: 1
+device: cuda
+save_eval_episodes: false
+use_tb: true
+use_wandb: true
+# experiment
+experiment: ft
+project_name: choreo
+
+# log settings
+log_every_frames: 1000
+recon_every_frames: 100000000 # edit for debug 
+
+# FT
+grad_heads: [decoder, reward]
+reward_norm: {momentum: 1.0, scale: 1.0, eps: 1e-8}
+actor_ent: 1e-4
+save_ft_model: true
+
+# Offline
+from_offline: false
+dataset: null
+collection_method: null
+#
+
+hydra:
+  run:
+    dir: ./exp_local/${now:%Y.%m.%d}/${now:%H%M%S}_${agent.name}
+  sweep:
+    dir: ./exp_sweep/${now:%Y.%m.%d}/${now:%H%M}_${agent.name}_${experiment}
+    subdir: ${hydra.job.num}
+  launcher:
+    timeout_min: 4300
+    cpus_per_task: 10
+    gpus_per_node: 1
+    tasks_per_node: 1
+    mem_gb: 160
+    nodes: 1
+    submitit_folder: ./exp_sweep/${now:%Y.%m.%d}/${now:%H%M}_${agent.name}_${experiment}/.slurm
