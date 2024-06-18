@@ -1,6 +1,8 @@
 # Choreographer: Learning and Adapting Skills in Imagination
 [[website](https://skillchoreographer.github.io/)] [[paper](https://arxiv.org/abs/2211.13350)]
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/choreographer-learning-and-adapting-skills-in/unsupervised-reinforcement-learning-on-urlb-3)](https://paperswithcode.com/sota/unsupervised-reinforcement-learning-on-urlb-3?p=choreographer-learning-and-adapting-skills-in)
+
 This is the code for Choreographer: a model-based agent that discovers and learns unsupervised skills in latent imagination, and it's able to efficiently coordinate and adapt the skills to solve downstream tasks.
 
 
